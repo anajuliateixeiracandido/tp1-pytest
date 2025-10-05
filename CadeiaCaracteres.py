@@ -13,5 +13,8 @@ def validar_cc(cc, t):
 def procurar_caractere(cc, c):
     if len(c) != 1:
         raise ValueError("Digite apenas um caractere")
-    posicoes = [i for i, ch in enumerate(cc) if ch == c]
+    posicoes = []
+    for i, ch in enumerate(cc):
+        if ch == c:
+            posicoes.append(i)
     return posicoes
