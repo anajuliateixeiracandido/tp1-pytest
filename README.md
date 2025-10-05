@@ -77,6 +77,8 @@ A partir desse grafo, é possível construir **tabelas de decisão** que orienta
 
 ---
 
+<img width="471" height="226" alt="Captura de Tela 2025-10-04 às 21 49 59" src="https://github.com/user-attachments/assets/c4079e81-90b7-4059-9819-0ace9f206fe8" />
+
 ### 4.3.2 Causas e Efeitos
 
 **Causas:**
