@@ -295,6 +295,14 @@ Os testes implementados cobrem **validação de entrada, tamanho da cadeia, busc
 
 ## 5. Resultados dos Testes
 
+#### Demonstrações da Execução
+
+**Execução dos testes:**
+![Execução dos Testes](assets/pytest.gif)
+
+**Execução com cobertura de código:**
+![Execução Completa com Cobertura](assets/pytestcov.gif)
+
 ### 5.1 Resumo da Execução
 
 O projeto implementa **90 casos de teste** distribuídos entre as diferentes estratégias:
