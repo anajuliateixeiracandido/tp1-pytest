@@ -13,20 +13,69 @@ No nosso projeto, as funções principais geram exceções (`raise ValueError`) 
 
 ## 1.2 Instalação e Integração
 
-A instalação do Pytest é simples e pode ser feita via **pip**:
+### Instalação
 
+**1. Primeiro, ative o ambiente virtual:**
+```bash
+source venv/bin/activate
+```
+
+**2. Depois instale o Pytest:**
 ```bash
 pip install pytest
 ```
 
-Para integrar ao projeto, basta criar arquivos de teste com o prefixo `test_` e funções de teste também iniciando com `test_`.
-Para executar os testes, utilize:
-
+**3. Para relatórios de cobertura (opcional):**
 ```bash
-pytest
+pip install pytest-cov
 ```
 
-O Pytest irá automaticamente identificar e executar todos os testes presentes no projeto.
+### Estrutura do Projeto
+
+Para integrar ao projeto, seguimos a convenção do Pytest:
+
+```
+tp1-pytest/
+├── CadeiaCaracteres.py          # Código fonte das funções
+└── tests/                       # Pasta de testes
+    ├── test_pe.py              # Testes de Partição de Equivalência
+    ├── test_avl.py             # Testes de Análise de Valor Limite
+    ├── test_causa_efeito.py    # Testes de Causa e Efeito
+    └── test_estrutural.py      # Testes Estruturais
+```
+
+### Execução dos Testes
+
+**Pré-requisito:** Certifique-se de que o ambiente virtual está ativo:
+```bash
+source venv/bin/activate
+```
+
+**Executar todos os testes:**
+```bash
+python -m pytest
+```
+
+**Executar com detalhes (verbose):**
+```bash
+python -m pytest -v
+```
+
+**Executar uma estratégia específica:**
+```bash
+python -m pytest tests/test_pe.py -v          # Apenas Partição de Equivalência
+python -m pytest tests/test_avl.py            # Apenas AVL
+python -m pytest tests/test_causa_efeito.py   # Apenas Causa e Efeito
+python -m pytest tests/test_estrutural.py     # Apenas Teste Estrutural
+```
+
+**Executar com relatório de cobertura (requer pytest-cov):**
+```bash
+pip install pytest-cov                    # Instalar se necessário
+python -m pytest --cov=CadeiaCaracteres   # Executar com cobertura
+```
+
+O Pytest irá automaticamente **descobrir e executar** todos os arquivos que começam com `test_` e funções que começam com `test_`.
 
 ---
 
@@ -34,15 +83,21 @@ O Pytest irá automaticamente identificar e executar todos os testes presentes n
 
 ### i) Técnicas de Teste
 
-O **Pytest** suporta tanto técnicas de teste **caixa-preta** (focando em entradas e saídas) quanto **caixa-branca** (verificando o funcionamento interno do código).
+O **Pytest** suporta tanto técnicas de teste **caixa-preta** (focando em entradas e saídas) quanto **caixa-branca** (verificando o funcionamento interno do código). Em nosso projeto, utilizamos principalmente **técnicas de caixa-preta** como Partição de Equivalência e Grafo de Causa e Efeito.
 
 ### ii) Níveis de Teste
 
-**Teste Unitário:** testa funções/métodos isoladamente.
+- **Teste Unitário:** testa funções/métodos isoladamente (principal foco do nosso projeto)
+- **Teste de Integração:** verifica a interação entre componentes
+- **Teste de Sistema:** valida o sistema como um todo
+- **Teste de Aceitação:** confirma se atende aos requisitos do usuário
 
 ### iii) Tipos de Teste
 
-**Teste Funcional:** verifica se o sistema atende aos requisitos especificados.
+- **Teste Funcional:** verifica se o sistema atende aos requisitos especificados (foco principal)
+- **Teste de Regressão:** garante que mudanças não quebram funcionalidades existentes
+- **Teste de Validação:** confirma se os dados de entrada são válidos
+- **Teste de Exceção:** verifica o tratamento correto de erros e situações excepcionais
 
 ---
 
@@ -52,9 +107,42 @@ Considere um programa que solicita do usuário um inteiro positivo no intervalo 
 Após isso, o programa solicita um caractere e retorna a posição em que o caractere está presente na cadeia.
 O usuário tem a opção de procurar vários caracteres.
 
+## 3.1 Funções Implementadas
+
+O sistema é composto por três funções principais implementadas no arquivo `CadeiaCaracteres.py`:
+
+### **validar_t(t)**
+- **Propósito:** Valida se o valor de entrada é um inteiro no intervalo [1, 20]
+- **Entrada:** `t` (valor a ser validado)
+- **Saída:** `True` se válido
+- **Exceções:** 
+  - `ValueError("Valor não é inteiro")` para tipos não-inteiros
+  - `ValueError("O número deve estar entre 1 e 20")` para valores fora do intervalo
+
+### **validar_cc(cc, t)**
+- **Propósito:** Valida se a cadeia de caracteres possui exatamente o comprimento especificado
+- **Entrada:** `cc` (cadeia de caracteres), `t` (tamanho esperado)
+- **Saída:** `True` se a cadeia tem o tamanho correto
+- **Exceção:** `ValueError("A cadeia deve ter exatamente {t} caracteres")` para tamanhos incorretos
+
+### **procurar_caractere(cc, c)**
+- **Propósito:** Encontra todas as posições de um caractere em uma cadeia
+- **Entrada:** `cc` (cadeia de caracteres), `c` (caractere a procurar)
+- **Saída:** Lista com as posições onde o caractere foi encontrado (pode ser vazia)
+- **Exceção:** `ValueError("Digite apenas um caractere")` se `c` não for exatamente 1 caractere
+
 ---
 
 # 4. Estratégias de Teste
+
+Para garantir uma **cobertura abrangente** e **eficiente** do sistema de validação de cadeias de caracteres, aplicamos **quatro estratégias complementares** de teste de caixa-preta:
+
+- **Partição de Equivalência:** Divide entradas em classes equivalentes para reduzir casos de teste
+- **Análise de Valor Limite (AVL):** Foca nos valores limites onde erros são mais prováveis  
+- **Grafo de Causa e Efeito:** Modela relações lógicas entre entradas e saídas
+- **Teste Estrutural:** Analisa cobertura de código e fluxos de execução
+
+Cada estratégia oferece **perspectivas diferentes** e **complementares**, garantindo que o sistema seja testado de forma **sistemática** e **rigorosa**. A combinação dessas técnicas maximiza a **detecção de defeitos** enquanto otimiza o **número de casos de teste** necessários.
 
 ---
 
@@ -154,7 +242,7 @@ A partir desse grafo, é possível construir **tabelas de decisão** que orienta
 
 ---
 
-<img width="471" height="226" alt="Captura de Tela 2025-10-04 às 21 49 59" src="https://github.com/user-attachments/assets/c4079e81-90b7-4059-9819-0ace9f206fe8" />
+<img width="471" height="226" alt="Captura de Tela 2025-10-04 às 21 49 59" src="https://github.com/user-attachments/assets/c4079e81-90b7-4059-9819-0ace9f206fe8" />
 
 ### 4.3.2 Causas e Efeitos
 
@@ -225,3 +313,5 @@ Os testes implementados cobrem **validação de entrada, tamanho da cadeia, busc
 ---
 
 ## 4.4 Teste Estrutural
+
+---
