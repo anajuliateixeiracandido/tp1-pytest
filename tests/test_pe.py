@@ -1,99 +1,86 @@
 import pytest 
-from Calculadora import Calculadora
+from CadeiaCaracteres import validar_t, validar_cc, procurar_caractere
 
-# particao de equivalencia
+# validar_t - partições: inteiros válidos (1-20), inteiros inválidos (<1, >20), não-inteiros
+@pytest.mark.parametrize("t, esperado", [
+    # inteiros válidos (1-20)
+    (1, True),
+    (10, True),
+    (20, True),
 
-# soma
-@pytest.mark.parametrize("val1, val2, resultado", [
-    # int+
-    (2, 3, 5),
+    # inteiros inválidos (abaixo do limite)
+    (0, ValueError),
+    (-5, ValueError),
 
-    # int- e int+
-    (-7, 5, -2),
-
-    # zero
-    (0, 0, 0),
-    (0, 9, 9),
-
-    # float
-    (2.5, 3.1, 5.6),
-    (-7.2, 0.5, -6.7),
+    # inteiros inválidos (acima do limite)
+    (21, ValueError),
+    (25, ValueError),
+    
+    # não-inteiros
+    (3.14, ValueError),
+    ("10", ValueError),
+    (None, ValueError),
 ])
-def test_soma_pe(val1, val2, resultado):
-    if isinstance(resultado, float) or isinstance(val1, float) or isinstance(val2, float):
-        assert Calculadora.soma(val1, val2) == pytest.approx(resultado)
+def test_validar_t_pe(t, esperado):
+    if esperado == ValueError:
+        with pytest.raises(ValueError):
+            validar_t(t)
     else:
-        assert Calculadora.soma(val1, val2) == resultado
+        assert validar_t(t) == esperado
 
-# sub
-@pytest.mark.parametrize("val1, val2, resultado", [
-    # int+
-    (5, 3, 2),
 
-    # int- e int+
-    (-7, 5, -12),
-
-    # zero
-    (0, 0, 0),
-    (0, 9, -9),
-
-    # float
-    (2.5, 3.1, -0.6),
+# validar_cc - partições: tamanho correto, tamanho menor, tamanho maior
+@pytest.mark.parametrize("cc, t, esperado", [
+    # tamanho correto
+    ("abc", 3, True),
+    ("", 0, True),
+    ("python", 6, True),
+    
+    # tamanho menor que t
+    ("ab", 3, ValueError),
+    ("", 1, ValueError),
+    ("test", 5, ValueError),
+    
+    # tamanho maior que t
+    ("abcd", 3, ValueError),
+    ("python", 5, ValueError),
+    ("hello", 4, ValueError),
 ])
-def test_sub_pe(val1, val2, resultado):
-    if any(isinstance(x, float) for x in [val1, val2, resultado]):
-        assert Calculadora.sub(val1, val2) == pytest.approx(resultado)
+def test_validar_cc_pe(cc, t, esperado):
+    if esperado == ValueError:
+        with pytest.raises(ValueError):
+            validar_cc(cc, t)
     else:
-        assert Calculadora.sub(val1, val2) == resultado
+        assert validar_cc(cc, t) == esperado
 
-# mult
-@pytest.mark.parametrize("val1, val2, resultado", [
-    # int+
-    (2, 3, 6),
 
-    # int- e int+
-    (-7, 5, -35),
+# procurar_caractere - partições: caractere válido/inválido, encontrado/não encontrado, múltiplas ocorrências
+@pytest.mark.parametrize("cc, c, esperado", [
+    # caractere válido (uma ocorrência)
+    ("python", "p", [0]),
+    ("hello", "h", [0]),
+    ("abc", "c", [2]),
 
-    # int- e int-
-    (-7, -2, 14),
+    # caractere válido (múltiplas ocorrencias)
+    ("banana", "a", [1, 3, 5]),
+    ("hello", "l", [2, 3]),
+    ("ababa", "b", [1, 3]),
 
-    # zero
-    (0, 9, 0),
+    # caractere válido (nenhuma ocorrencia)
+    ("python", "z", []),
+    ("abc", "x", []),
+    ("hello", "w", []),
 
-    # float
-    (2.5, 3.1, 7.75),
+    # caractere inválido (string vazia)
+    ("abc", "", ValueError),
+
+    # caractere inválido (múltiplos caracteres)
+    ("abc", "xy", ValueError),
+    ("test", "ab", ValueError),
 ])
-def test_mult_pe(val1, val2, resultado):
-    if any(isinstance(x, float) for x in [val1, val2, resultado]):
-        assert Calculadora.mult(val1, val2) == pytest.approx(resultado)
+def test_procurar_caractere_pe(cc, c, esperado):
+    if esperado == ValueError:
+        with pytest.raises(ValueError):
+            procurar_caractere(cc, c)
     else:
-        assert Calculadora.mult(val1, val2) == resultado
-
-# div
-@pytest.mark.parametrize("val1, val2, resultado", [
-    # int+
-    (6, 3, 2.0),
-
-    # int- e int+
-    (-7, 5, -1.4),
-
-    # int+ e int-
-    (7, -2, -3.5),
-
-    # float
-    (7.5, 2.5, 3.0),
-    (-7.2, 0.5, -14.4),
-
-    # float negativo
-    (7.5, -2.5, -3.0),
-
-    # zero no numerador
-    (0, 9, 0.0),
-])
-
-def test_div_pe(val1, val2, resultado):
-    assert val2 != 0
-    if any(isinstance(x, float) for x in [val1, val2, resultado]):
-        assert Calculadora.div(val1, val2) == pytest.approx(resultado)
-    else:
-        assert Calculadora.div(val1, val2) == resultado
+        assert procurar_caractere(cc, c) == esperado 
