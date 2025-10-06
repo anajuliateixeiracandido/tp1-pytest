@@ -1,36 +1,34 @@
-# tp1-pytest
+# Trabalho Prático - Estratégias de Teste com Pytest
 
-# 1. Descrição do Framework (Pytest)
+## 1. Descrição do Framework (Pytest)
 
-## 1.1 O que é o Pytest?
+### 1.1 O que é o Pytest?
 
-O **Pytest** é um framework de testes para **Python**, escolhemos utiliza-lo devido à sua simplicidade, flexibilidade e poder.
+O **Pytest** é um framework de testes para **Python**, escolhemos utilizá-lo devido à sua simplicidade, flexibilidade e poder.
 Ele permite escrever casos de teste de forma intuitiva, além de suportar **testes unitários, de integração e funcionais**. Sua sintaxe enxuta facilita a escrita e manutenção dos testes.
 
 No nosso projeto, as funções principais geram exceções (`raise ValueError`) quando recebem dados inválidos, como valores fora do intervalo ou tipos errados. Com isso é possível identificar a causa do erro. Nos testes, usamos o **Pytest** para verificar se essas exceções realmente acontecem quando esperado. Assim, garantimos que o sistema está tratando erros corretamente.
 
----
+### 1.2 Instalação e Integração
 
-## 1.2 Instalação e Integração
+#### Instalação
 
-### Instalação
+1. **Primeiro, ative o ambiente virtual:**
+   ```bash
+   source venv/bin/activate
+   ```
 
-**1. Primeiro, ative o ambiente virtual:**
-```bash
-source venv/bin/activate
-```
+2. **Depois instale o Pytest:**
+   ```bash
+   pip install pytest
+   ```
 
-**2. Depois instale o Pytest:**
-```bash
-pip install pytest
-```
+3. **Para relatórios de cobertura (opcional):**
+   ```bash
+   pip install pytest-cov
+   ```
 
-**3. Para relatórios de cobertura (opcional):**
-```bash
-pip install pytest-cov
-```
-
-### Estrutura do Projeto
+#### Estrutura do Projeto
 
 Para integrar ao projeto, seguimos a convenção do Pytest:
 
@@ -44,7 +42,7 @@ tp1-pytest/
     └── test_estrutural.py      # Testes Estruturais
 ```
 
-### Execução dos Testes
+#### Execução dos Testes
 
 **Pré-requisito:** Certifique-se de que o ambiente virtual está ativo:
 ```bash
@@ -77,41 +75,37 @@ python -m pytest --cov=CadeiaCaracteres   # Executar com cobertura
 
 O Pytest irá automaticamente **descobrir e executar** todos os arquivos que começam com `test_` e funções que começam com `test_`.
 
----
+## 2. Categorização do Framework
 
-# 2. Categorização do Framework
-
-### i) Técnicas de Teste
+### 2.1 Técnicas de Teste
 
 O **Pytest** suporta tanto técnicas de teste **caixa-preta** (focando em entradas e saídas) quanto **caixa-branca** (verificando o funcionamento interno do código). Em nosso projeto, utilizamos principalmente **técnicas de caixa-preta** como Partição de Equivalência e Grafo de Causa e Efeito.
 
-### ii) Níveis de Teste
+### 2.2 Níveis de Teste
 
 - **Teste Unitário:** testa funções/métodos isoladamente (principal foco do nosso projeto)
 - **Teste de Integração:** verifica a interação entre componentes
 - **Teste de Sistema:** valida o sistema como um todo
 - **Teste de Aceitação:** confirma se atende aos requisitos do usuário
 
-### iii) Tipos de Teste
+### 2.3 Tipos de Teste
 
 - **Teste Funcional:** verifica se o sistema atende aos requisitos especificados (foco principal)
 - **Teste de Regressão:** garante que mudanças não quebram funcionalidades existentes
 - **Teste de Validação:** confirma se os dados de entrada são válidos
 - **Teste de Exceção:** verifica o tratamento correto de erros e situações excepcionais
 
----
-
-# 3. Nosso Problema
+## 3. Nosso Problema
 
 Considere um programa que solicita do usuário um inteiro positivo no intervalo entre **1 e 20** e então solicita uma cadeia de caracteres desse comprimento.
 Após isso, o programa solicita um caractere e retorna a posição em que o caractere está presente na cadeia.
 O usuário tem a opção de procurar vários caracteres.
 
-## 3.1 Funções Implementadas
+### 3.1 Funções Implementadas
 
 O sistema é composto por três funções principais implementadas no arquivo `CadeiaCaracteres.py`:
 
-### **validar_t(t)**
+#### **validar_t(t)**
 - **Propósito:** Valida se o valor de entrada é um inteiro no intervalo [1, 20]
 - **Entrada:** `t` (valor a ser validado)
 - **Saída:** `True` se válido
@@ -119,21 +113,19 @@ O sistema é composto por três funções principais implementadas no arquivo `C
   - `ValueError("Valor não é inteiro")` para tipos não-inteiros
   - `ValueError("O número deve estar entre 1 e 20")` para valores fora do intervalo
 
-### **validar_cc(cc, t)**
+#### **validar_cc(cc, t)**
 - **Propósito:** Valida se a cadeia de caracteres possui exatamente o comprimento especificado
 - **Entrada:** `cc` (cadeia de caracteres), `t` (tamanho esperado)
 - **Saída:** `True` se a cadeia tem o tamanho correto
 - **Exceção:** `ValueError("A cadeia deve ter exatamente {t} caracteres")` para tamanhos incorretos
 
-### **procurar_caractere(cc, c)**
+#### **procurar_caractere(cc, c)**
 - **Propósito:** Encontra todas as posições de um caractere em uma cadeia
 - **Entrada:** `cc` (cadeia de caracteres), `c` (caractere a procurar)
 - **Saída:** Lista com as posições onde o caractere foi encontrado (pode ser vazia)
 - **Exceção:** `ValueError("Digite apenas um caractere")` se `c` não for exatamente 1 caractere
 
----
-
-# 4. Estratégias de Teste
+## 4. Estratégias de Teste
 
 Para garantir uma **cobertura abrangente** e **eficiente** do sistema de validação de cadeias de caracteres, aplicamos **quatro estratégias complementares** de teste de caixa-preta:
 
@@ -144,19 +136,17 @@ Para garantir uma **cobertura abrangente** e **eficiente** do sistema de valida�
 
 Cada estratégia oferece **perspectivas diferentes** e **complementares**, garantindo que o sistema seja testado de forma **sistemática** e **rigorosa**. A combinação dessas técnicas maximiza a **detecção de defeitos** enquanto otimiza o **número de casos de teste** necessários.
 
----
+### 4.1 Partição de Equivalência
 
-## 4.1 Partição de Equivalência
-
-### 4.1.1 O que é?
+#### 4.1.1 O que é?
 
 A **Partição de Equivalência** é uma técnica de teste de caixa-preta que divide o domínio de entrada em **classes de equivalência**, onde todos os elementos de uma mesma classe devem produzir comportamentos similares no sistema. O objetivo é reduzir o número de casos de teste necessários, escolhendo **representantes** de cada partição.
 
-### 4.1.2 Partições Identificadas
+#### 4.1.2 Partições Identificadas
 
 Para nosso problema, identificamos as seguintes partições:
 
-#### **validar_t(t) - Validação do Tamanho**
+##### **validar_t(t) - Validação do Tamanho**
 
 **Partições:**
 - **Inteiros válidos (1-20)**: valores dentro do intervalo permitido
@@ -164,14 +154,14 @@ Para nosso problema, identificamos as seguintes partições:
 - **Inteiros inválidos (>20)**: valores acima do limite superior
 - **Não-inteiros**: tipos diferentes de int (float, string, None)
 
-#### **validar_cc(cc, t) - Validação da Cadeia**
+##### **validar_cc(cc, t) - Validação da Cadeia**
 
 **Partições:**
 - **Tamanho correto**: cadeia com comprimento exatamente igual a `t`
 - **Tamanho menor**: cadeia com comprimento menor que `t`
 - **Tamanho maior**: cadeia com comprimento maior que `t`
 
-#### **procurar_caractere(cc, c) - Busca de Caractere**
+##### **procurar_caractere(cc, c) - Busca de Caractere**
 
 **Partições:**
 - **Caractere válido - uma ocorrência**: encontra o caractere uma vez
@@ -180,7 +170,7 @@ Para nosso problema, identificamos as seguintes partições:
 - **Caractere inválido - string vazia**: entrada com ""
 - **Caractere inválido - múltiplos caracteres**: entrada com mais de 1 caractere
 
-### 4.1.3 Casos de Teste Implementados
+#### 4.1.3 Casos de Teste Implementados
 
 | T  | CC      | C  | Tamanho Esperado | Saída Esperada                                    |
 | -- | ------- | -- | ---------------- | ------------------------------------------------- |
@@ -217,51 +207,44 @@ Para nosso problema, identificamos as seguintes partições:
 | -  | test    | ab | -                | Digite apenas um caractere                        |
 ---
 
-#### Legenda:
+##### Legenda:
 
-* **T** = Valor de entrada para o tamanho/campo numérico
-* **CC** = Cadeia de caracteres
-* **C** = Caractere procurado
-* **Tamanho Esperado** = Parâmetro para validar o tamanho da cadeia (quando aplicável)
-* **Saída Esperada** = Resultado ou mensagem de erro esperada
+- **T** = Valor de entrada para o tamanho/campo numérico
+- **CC** = Cadeia de caracteres
+- **C** = Caractere procurado
+- **Tamanho Esperado** = Parâmetro para validar o tamanho da cadeia (quando aplicável)
+- **Saída Esperada** = Resultado ou mensagem de erro esperada
 
----
-
-## 4.2 Análise de Valor Limite (AVL)
+### 4.2 Análise de Valor Limite (AVL)
 
 
----
 
-## 4.3 Grafo de Causa e Efeito
+### 4.3 Grafo de Causa e Efeito
 
-### 4.3.1 O que é?
+#### 4.3.1 O que é?
 
 O **Grafo de Causa e Efeito** é uma técnica formal de derivação de casos de teste baseada em **lógica booleana**.
 Ela modela as relações entre **entradas (causas)** e **saídas (efeitos)** do sistema, permitindo identificar combinações relevantes para teste.
 A partir desse grafo, é possível construir **tabelas de decisão** que orientam a criação dos casos de teste.
 
----
-
 <img width="471" height="226" alt="Captura de Tela 2025-10-04 às 21 49 59" src="https://github.com/user-attachments/assets/c4079e81-90b7-4059-9819-0ace9f206fe8" />
 
-### 4.3.2 Causas e Efeitos
+#### 4.3.2 Causas e Efeitos
 
 **Causas:**
 
-* Inteiro positivo no intervalo de 1 a 20
-* Caractere a ser procurado na cadeia
-* Procurar outro caractere
+- Inteiro positivo no intervalo de 1 a 20
+- Caractere a ser procurado na cadeia
+- Procurar outro caractere
 
 **Efeitos:**
 
-* **20.** Inteiro fora do intervalo
-* **21.** Posição do caractere na cadeia
-* **22.** Caractere não encontrado
-* **23.** Término do programa
+- **20.** Inteiro fora do intervalo
+- **21.** Posição do caractere na cadeia
+- **22.** Caractere não encontrado
+- **23.** Término do programa
 
----
-
-### 4.3.3 Tabela de Decisão (Grafo Causa-Efeito)
+#### 4.3.3 Tabela de Decisão (Grafo Causa-Efeito)
 
 |    |   |   |   |   |
 | -- | - | - | - | - |
@@ -273,9 +256,7 @@ A partir desse grafo, é possível construir **tabelas de decisão** que orienta
 | 22 | 0 | 0 | 1 | 0 |
 | 23 | 0 | 0 | 0 | 1 |
 
----
-
-### 4.3.4 Casos de Teste Derivados
+#### 4.3.4 Casos de Teste Derivados
 
 | T  | CC      | C  | Tamanho Esperado | Saída Esperada                                    |
 | -- | ------- | -- | ---------------- | ------------------------------------------------- |
@@ -294,15 +275,13 @@ A partir desse grafo, é possível construir **tabelas de decisão** que orienta
 
 ---
 
-#### Legenda:
+##### Legenda:
 
-* **T** = Valor de entrada para o tamanho/campo numérico
-* **CC** = Cadeia de caracteres
-* **C** = Caractere procurado
-* **Tamanho Esperado** = Parâmetro para validar o tamanho da cadeia (quando aplicável)
-* **Saída Esperada** = Resultado ou mensagem de erro esperada
-
----
+- **T** = Valor de entrada para o tamanho/campo numérico
+- **CC** = Cadeia de caracteres
+- **C** = Caractere procurado
+- **Tamanho Esperado** = Parâmetro para validar o tamanho da cadeia (quando aplicável)
+- **Saída Esperada** = Resultado ou mensagem de erro esperada
 
 Cada linha da tabela acima foi um teste implementado no código apresentado, cobrindo as principais possibilidades de entradas e suas respectivas saídas, conforme a modelagem do grafo de causa e efeito.
 
@@ -310,8 +289,55 @@ O caso de término do programa (**23**) depende do controle de fluxo externo, **
 
 Os testes implementados cobrem **validação de entrada, tamanho da cadeia, busca de caracteres, casos de erro e sucesso**, conforme a estratégia formal definida.
 
----
+### 4.4 Teste Estrutural
 
-## 4.4 Teste Estrutural
 
----
+
+## 5. Resultados dos Testes
+
+### 5.1 Resumo da Execução
+
+O projeto implementa **90 casos de teste** distribuídos entre as diferentes estratégias:
+
+```
+tests/test_avl.py .........................                                                           [ 27%]
+tests/test_causa_efeito.py ............                                                               [ 41%]
+tests/test_estrutural.py ......................                                                       [ 65%]
+tests/test_pe.py ...............................                                                      [100%]
+============================================ 90 passed in 0.44s =============================================
+```
+
+### 5.2 Cobertura de Código
+
+A execução dos testes alcança **100% de cobertura** do código fonte:
+
+```
+Name                  Stmts   Miss  Cover
+-----------------------------------------
+CadeiaCaracteres.py      18      0   100%
+-----------------------------------------
+TOTAL                    18      0   100%
+```
+
+#### Detalhamento por Estratégia:
+
+- **Análise de Valor Limite (AVL):** 25 testes (0% → 27%)
+- **Causa e Efeito:** 12 testes (27% → 41%)  
+- **Teste Estrutural:** 22 testes (41% → 65%)
+- **Partição de Equivalência:** 31 testes (65% → 100%)
+
+#### Métricas de Qualidade:
+
+- **90/90 testes passando** (100% de sucesso)
+- **18/18 linhas cobertas** (100% de cobertura)
+- **0 falhas detectadas**
+- **Todas as funções testadas**: `validar_t`, `validar_cc`, `procurar_caractere`
+- **Todas as estratégias implementadas**: PE, AVL, Causa-Efeito, Estrutural
+
+### 5.3 Resumo Final
+
+**Resultados Alcançados:**
+- **90 casos de teste** implementados
+- **100% de cobertura** de código
+- **4 estratégias** de teste aplicadas: PE, AVL, Causa-Efeito, Estrutural
+- **Tempo de execução:** ~0.44 segundos
