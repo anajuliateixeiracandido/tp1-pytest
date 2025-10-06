@@ -15,7 +15,7 @@ No nosso projeto, as funções principais geram exceções (`raise ValueError`) 
 
 1. **Primeiro, ative o ambiente virtual:**
    ```bash
-   source venv/bin/activate
+   source .venv/bin/activate
    ```
 
 2. **Depois instale o Pytest:**
@@ -46,7 +46,7 @@ tp1-pytest/
 
 **Pré-requisito:** Certifique-se de que o ambiente virtual está ativo:
 ```bash
-source venv/bin/activate
+source .venv/bin/activate
 ```
 
 **Executar todos os testes:**
