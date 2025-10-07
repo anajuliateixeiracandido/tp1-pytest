@@ -84,14 +84,11 @@ O **Pytest** suporta tanto técnicas de teste **caixa-preta** (focando em entrad
 ### 2.2 Níveis de Teste
 
 - **Teste Unitário:** testa funções/métodos isoladamente (principal foco do nosso projeto)
-- **Teste de Integração:** verifica a interação entre componentes
-- **Teste de Sistema:** valida o sistema como um todo
-- **Teste de Aceitação:** confirma se atende aos requisitos do usuário
 
 ### 2.3 Tipos de Teste
 
-- **Teste Funcional:** verifica se o sistema atende aos requisitos especificados (foco principal)
-- **Teste de Regressão:** garante que mudanças não quebram funcionalidades existentes
+- **Teste Funcional:** verifica se o sistema atende aos requisitos especificados 
+- **Teste Estrutural:** verifica o comportamento interno do código, garantindo que todos os caminhos e condições da implementação sejam executados e funcionem corretamente.
 - **Teste de Validação:** confirma se os dados de entrada são válidos
 - **Teste de Exceção:** verifica o tratamento correto de erros e situações excepcionais
 
@@ -217,6 +214,67 @@ Para nosso problema, identificamos as seguintes partições:
 
 ### 4.2 Análise de Valor Limite (AVL)
 
+A **Análise de valor limite** é uma técnica de caixa preta que verifica valores logo abaixo, no limite e logo acima dos intervalos válidos, com o obejtivo de achar defeitos nas bordas, com poucos casos de teste
+
+#### validar_t(t)
+| Categoria                      | Valor testado | 
+| ------------------------------ | ------------: | 
+| **Um abaixo do limite**        |       0       | 
+| **Limite inferior**            |       1       |
+| **Um a mais do inferior**      |       2       | 
+| **Um a menos do superior**     |       19      | 
+| **Limite superior**            |       20      | 
+| **Um a mais acima do limite**  |       21      | 
+
+
+#### validar_cc(cc, t)
+t = 1
+
+| Categoria | cc | Resultado esperado |
+| --------- | ---: | ------------------ |
+| t − 1     |    0 | exceção            |
+| t         |    1 | válido             |
+| t + 1     |    2 | exceção            |
+
+
+t = 10
+
+| Categoria | cc | Resultado esperado |
+| --------- | ---: | ------------------ |
+| t − 1     |    9 | exceção            |
+| t         |   10 | válido             |
+| t + 1     |   11 | exceção            |
+
+
+t = 20
+
+| Categoria | cc | Resultado esperado |
+| --------- | ---: | ------------------ |
+| t − 1     |   19 | exceção            |
+| t         |   20 | válido             |
+| t + 1     |   21 | exceção            |
+
+
+#### procurar_caractere(cc, c)
+
+Limites por posição
+
+| Categoria             | Exemplo        | Índice(s) |
+| --------------------- | -------------- | --------: |
+| **Primeiro elemento** | `("abc", "a")` |       [0] |
+| **Último elemento**   | `("abc", "c")` |       [2] |
+| **String unitária**   | `("a", "a")`   |       [0] |
+| **String vazia**      | `("", "a")`    |        [] |
+
+Limites por tamanho de c
+
+| Categoria               | Valor de `c` | Resultado esperado |
+| ----------------------- | ------------ | ------------------ |
+| **Vazio (c = 0)**     | `""`         | exceção            |
+| **Válido (c = 1)**    | `"a"`        | busca normal       |
+| **Múltiplos (c > 1)** | `"ab"`       | exceção            |
+
+
 
 
 ### 4.3 Grafo de Causa e Efeito
@@ -227,15 +285,15 @@ O **Grafo de Causa e Efeito** é uma técnica formal de derivação de casos de 
 Ela modela as relações entre **entradas (causas)** e **saídas (efeitos)** do sistema, permitindo identificar combinações relevantes para teste.
 A partir desse grafo, é possível construir **tabelas de decisão** que orientam a criação dos casos de teste.
 
-<img width="471" height="226" alt="Captura de Tela 2025-10-04 às 21 49 59" src="https://github.com/user-attachments/assets/c4079e81-90b7-4059-9819-0ace9f206fe8" />
+<img width="275" height="198" alt="Captura de tela 2025-10-07 124034" src="https://github.com/user-attachments/assets/5f395cdd-8b24-44e9-94ec-ff6c3d6e78f0" />
 
 #### 4.3.2 Causas e Efeitos
 
 **Causas:**
 
-- Inteiro positivo no intervalo de 1 a 20
-- Caractere a ser procurado na cadeia
-- Procurar outro caractere
+1. Inteiro positivo no intervalo de 1 a 20
+2. Caractere a ser procurado na cadeia
+3. Procurar outro caractere
 
 **Efeitos:**
 
@@ -291,7 +349,60 @@ Os testes implementados cobrem **validação de entrada, tamanho da cadeia, busc
 
 ### 4.4 Teste Estrutural
 
+#### 4.4.1 O que é?
+**Teste estrutural (ou white-box)** é uma técnica de teste que olha “por dentro” do código para validar sua lógica. A partir da estrutura interna, criamos casos de teste para cobrir instruções, decisões e caminhos, verificando fluxos de controle e de dados. Isso ajuda a achar código não executado, tratar melhor condições de borda e reduzir erros, aumentando a confiabilidade e a facilidade de manutenção do sistema.
 
+#### 4.4.2 CFG (Control Flow Graph)
+
+##### Validar entrada de número de caracteres - validar_t(t)
+
+
+| CFG | Código |
+|---|---|
+| <img src="assets/test_estrutural/validar_t.png" alt="CFG validar_t" width="360"> | <img src="assets/test_estrutural/codigo_validart.png" alt="Código validar_t" width="360"> |
+
+
+##### Validar entrada de caracteres corresponde ao número passado - validar_cc(cc, t)
+
+
+| CFG | Código |
+|---|---|
+| <img src="assets/test_estrutural/validar_cc.png" alt="CFG validar_c" width="360"> | <img src="assets/test_estrutural/codigo_validarcc.png" alt="Código validar_c" width="360"> |
+
+
+##### Retronar posição(ões) em que a entrada/letra esta contida na palavra - procurar_caractere(cc, c)
+
+| CFG | Código |
+|---|---|
+| <img src="assets/test_estrutural/procurar_caractere.png" alt="CFG procurar_caractere" width="360"> | <img src="assets/test_estrutural/codigo_procurarcaractere.png" alt="Código procurar_caractere" width="360"> |
+
+#### 4.4.3 Complexidade Ciclomática
+
+Use V(G) = P + 1, onde P é o nº de nós predicados (if/for)
+
+| Função | Predicados (P) | V(G) |
+| ------ | -------------- | ---- |
+| validar_t | if not isinstance, if not(1..20) | 3 |
+| validar_cc | if len(cc) != t | 2 |
+| procurar_caractere | if len(c)!=1, for, if ch==c | 4 |
+
+#### 4.4.4 Caminhos-base
+
+| Função | Caminho | Entrada | Saída esperada |
+| ------ | ------- | ------- | -------------- |
+| validar_t | 2-3 | "10" | ValueError("Valor não é inteiro") |
+| validar_t | 2-4-5 | 0, 21, -5 | ValueError("O número deve estar entre 1 e 20") |
+| validar_t | 2-4-6 | 1, 20, 5 | True |
+| validar_cc | 9-10 | ("ab",3), ("abcd",3), ("",1) | ValueError(f"... {t} ...") |
+| validar_cc | 9-11 | ("abc",3) | True |
+| procurar_caractere | 14-15 | ("teste",""), ("teste","ab") | ValueError("Digite apenas um caractere")|
+| procurar_caractere | 14-[16,17]-20 | ("", "x") | [] |
+| procurar_caractere | 14-[16,17]-18 | ("abcde","z") | [] |
+| procurar_caractere | 14-[16,17]-18-19 | ("banana","a") | [1,3,5] |
+
+#### 4.4.5 Casos de Teste
+
+Os casos de teste foram gerados com base nos caminhos-base definidos na Etapa 3, garantindo a execução de todos os ramos (incluindo a validação das exceções e mensagens).
 
 ## 5. Resultados dos Testes
 
@@ -302,6 +413,9 @@ Os testes implementados cobrem **validação de entrada, tamanho da cadeia, busc
 
 **Execução com cobertura de código:**
 ![Execução Completa com Cobertura](assets/pytestcov.gif)
+
+**Execução teste estrutural:**
+![Execução Completa teste estrutural](assets/test_estrutural/testeestrutural.gif)
 
 ### 5.1 Resumo da Execução
 

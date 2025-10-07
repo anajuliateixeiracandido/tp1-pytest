@@ -1,11 +1,13 @@
 import pytest 
 from CadeiaCaracteres import validar_t, validar_cc, procurar_caractere
 
+# validar_t
 @pytest.mark.parametrize("valor_invalido", [
     0,
     21,
     -5
 ])
+
 def test_validar_t_fora_do_intervalo(valor_invalido):
     with pytest.raises(ValueError) as exc:
         validar_t(valor_invalido)
@@ -27,10 +29,7 @@ def test_validar_t_valores_de_borda(valor_limite):
 def test_validar_t_valores_validos_intermediarios(valor_ok):
     assert validar_t(valor_ok) is True
 
-
-# ---------------------------
-# TESTES ESTRUTURAIS: validar_cc
-# ---------------------------
+# validar_cc
 
 def test_validar_cc_tamanho_exato_retorna_true():
     cc = "abc"
@@ -50,9 +49,8 @@ def test_validar_cc_tamanho_incorreto_gera_erro(cc, t):
         validar_cc(cc, t)
     assert str(exc.value) == f"A cadeia deve ter exatamente {t} caracteres"
 
-# ---------------------------
-# TESTES ESTRUTURAIS: procurar_caractere
-# ---------------------------
+
+# procurar_caractere
 
 @pytest.mark.parametrize("caractere_invalido", ["", "ab"])
 def test_procurar_caractere_c_invalido(caractere_invalido):
