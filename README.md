@@ -287,15 +287,15 @@ O **Grafo de Causa e Efeito** é uma técnica formal de derivação de casos de 
 Ela modela as relações entre **entradas (causas)** e **saídas (efeitos)** do sistema, permitindo identificar combinações relevantes para teste.
 A partir desse grafo, é possível construir **tabelas de decisão** que orientam a criação dos casos de teste.
 
-<img width="471" height="226" alt="Captura de Tela 2025-10-04 às 21 49 59" src="https://github.com/user-attachments/assets/c4079e81-90b7-4059-9819-0ace9f206fe8" />
+<img width="275" height="198" alt="Captura de tela 2025-10-07 124034" src="https://github.com/user-attachments/assets/5f395cdd-8b24-44e9-94ec-ff6c3d6e78f0" />
 
 #### 4.3.2 Causas e Efeitos
 
 **Causas:**
 
-- Inteiro positivo no intervalo de 1 a 20
-- Caractere a ser procurado na cadeia
-- Procurar outro caractere
+1. Inteiro positivo no intervalo de 1 a 20
+2. Caractere a ser procurado na cadeia
+3. Procurar outro caractere
 
 **Efeitos:**
 
