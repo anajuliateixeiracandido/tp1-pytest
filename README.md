@@ -217,6 +217,66 @@ Para nosso problema, identificamos as seguintes partições:
 
 ### 4.2 Análise de Valor Limite (AVL)
 
+A **Análise de valor limite** é uma técnica de caixa preta que verifica valores logo abaixo, no limite e logo acima dos intervalos válidos, com o obejtivo de achar defeitos nas bordas, com poucos casos de teste
+
+#### validar_t(t)
+| Categoria                      | Valor testado | 
+| ------------------------------ | ------------: | 
+| **Um abaixo do limite**        |       0       | 
+| **Limite inferior**            |       1       |
+| **Um a mais do inferior**      |       2       | 
+| **Um a menos do superior**     |       19      | 
+| **Limite superior**            |       20      | 
+| **Um a mais acima do limite**  |       21      | 
+
+
+#### validar_cc(cc, t)
+t = 1
+
+| Categoria | cc | Resultado esperado |
+| --------- | ---: | ------------------ |
+| t − 1     |    0 | exceção            |
+| t         |    1 | válido             |
+| t + 1     |    2 | exceção            |
+
+
+t = 10
+
+| Categoria | cc | Resultado esperado |
+| --------- | ---: | ------------------ |
+| t − 1     |    9 | exceção            |
+| t         |   10 | válido             |
+| t + 1     |   11 | exceção            |
+
+
+t = 20
+
+| Categoria | cc | Resultado esperado |
+| --------- | ---: | ------------------ |
+| t − 1     |   19 | exceção            |
+| t         |   20 | válido             |
+| t + 1     |   21 | exceção            |
+
+
+#### procurar_caractere(cc, c)
+
+Limites por posição
+
+| Categoria             | Exemplo        | Índice(s) |
+| --------------------- | -------------- | --------: |
+| **Primeiro elemento** | `("abc", "a")` |       [0] |
+| **Último elemento**   | `("abc", "c")` |       [2] |
+| **String unitária**   | `("a", "a")`   |       [0] |
+| **String vazia**      | `("", "a")`    |        [] |
+
+Limites por tamanho de c
+
+| Categoria     | Valor de `c` | Resultado esperado |        |                 |
+| ------------- | ------------ | ------------------ | ------ | --------------- |
+| **Vazio (     | c            | = 0)**             | `""`   | exceção         |
+| **Válido (    | c            | = 1)**             | `"a"`  | pesquisa normal |
+| **Múltiplos ( | c            | > 1)**             | `"ab"` | exceção         |
+
 
 
 ### 4.3 Grafo de Causa e Efeito
