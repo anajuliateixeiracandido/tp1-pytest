@@ -273,9 +273,9 @@ Limites por tamanho de c
 
 | Categoria     | Valor de `c` | Resultado esperado |        |                 |
 | ------------- | ------------ | ------------------ | ------ | --------------- |
-| **Vazio (     | c            | = 0)**             | `""`   | exceção         |
-| **Válido (    | c            | = 1)**             | `"a"`  | pesquisa normal |
-| **Múltiplos ( | c            | > 1)**             | `"ab"` | exceção         |
+| **Vazio**     | c            | = 0            | `""`   | exceção         |
+| **Válido**    | c            | = 1             | `"a"`  | pesquisa normal |
+| **Múltiplos** | c            | > 1             | `"ab"` | exceção         |
 
 
 
