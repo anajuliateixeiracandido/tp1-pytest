@@ -414,6 +414,15 @@ Os casos de teste foram gerados com base nos caminhos-base definidos na Etapa 3,
 **Execução com cobertura de código:**
 ![Execução Completa com Cobertura](assets/pytestcov.gif)
 
+**Execução partição de equivalência:**
+![Execução Completa com PE](assets/testpe.gif)
+
+**Execução AVL:**
+![Execução Completa com AVL](assets/testavl.gif)
+
+**Execução grafo causa e efeito:**
+![Execução Completa com Causa e Efeito](assets/testcausaefeito.gif)
+
 **Execução teste estrutural:**
 ![Execução Completa teste estrutural](assets/test_estrutural/testeestrutural.gif)
 
