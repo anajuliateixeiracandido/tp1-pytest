@@ -257,7 +257,7 @@ t = 20
 
 #### procurar_caractere(cc, c)
 
-Limites por posição
+Limites por posição - onde c aparece
 
 | Categoria             | Exemplo        | Índice(s) |
 | --------------------- | -------------- | --------: |
@@ -266,7 +266,7 @@ Limites por posição
 | **String unitária**   | `("a", "a")`   |       [0] |
 | **String vazia**      | `("", "a")`    |        [] |
 
-Limites por tamanho de c
+Limites por tamanho de c - se c é válido
 
 | Categoria               | Valor de `c` | Resultado esperado |
 | ----------------------- | ------------ | ------------------ |
