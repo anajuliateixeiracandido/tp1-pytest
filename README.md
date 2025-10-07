@@ -84,14 +84,11 @@ O **Pytest** suporta tanto técnicas de teste **caixa-preta** (focando em entrad
 ### 2.2 Níveis de Teste
 
 - **Teste Unitário:** testa funções/métodos isoladamente (principal foco do nosso projeto)
-- **Teste de Integração:** verifica a interação entre componentes
-- **Teste de Sistema:** valida o sistema como um todo
-- **Teste de Aceitação:** confirma se atende aos requisitos do usuário
 
 ### 2.3 Tipos de Teste
 
-- **Teste Funcional:** verifica se o sistema atende aos requisitos especificados (foco principal)
-- **Teste de Regressão:** garante que mudanças não quebram funcionalidades existentes
+- **Teste Funcional:** verifica se o sistema atende aos requisitos especificados 
+- **Teste Estrutural:** verifica o comportamento interno do código, garantindo que todos os caminhos e condições da implementação sejam executados e funcionem corretamente.
 - **Teste de Validação:** confirma se os dados de entrada são válidos
 - **Teste de Exceção:** verifica o tratamento correto de erros e situações excepcionais
 
